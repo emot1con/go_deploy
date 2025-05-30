@@ -5,10 +5,12 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"os"
 	"strconv"
 	"time"
 
 	"github.com/gorilla/mux"
+	"github.com/joho/godotenv"
 )
 
 // User represents a simple user structure
@@ -24,6 +26,12 @@ var users []User
 var nextID = 1
 
 func main() {
+	// Load environment variables from .env file
+	err := godotenv.Load()
+	if err != nil {
+		log.Println("Warning: .env file not found, using default values")
+	}
+
 	// Initialize with some sample data
 	users = []User{
 		{ID: 1, Name: "John Doe", Email: "john@example.com", Created: time.Now().Format(time.RFC3339)},
@@ -48,10 +56,15 @@ func main() {
 
 	// Static files
 	r.PathPrefix("/static/").Handler(http.StripPrefix("/static/", http.FileServer(http.Dir("./static/"))))
-
 	// Root endpoint - serve the frontend
-	r.HandleFunc("/", frontendHandler).Methods("GET") // Start server
-	port := ":8082"
+	r.HandleFunc("/", frontendHandler).Methods("GET")
+
+	// Get port from environment variable or use default
+	portEnv := os.Getenv("TEST_ENV")
+	if portEnv == "" {
+		portEnv = "8080" // Default port if TEST_ENV is not set
+	}
+	port := ":" + portEnv
 	fmt.Printf("🚀 Server starting on port %s\n", port)
 	fmt.Println("Available endpoints:")
 	fmt.Println("  GET    /              - Frontend (User Management)")
@@ -62,8 +75,8 @@ func main() {
 	fmt.Println("  GET    /api/v1/users/{id} - Get user by ID")
 	fmt.Println("  PUT    /api/v1/users/{id} - Update user by ID")
 	fmt.Println("  DELETE /api/v1/users/{id} - Delete user by ID")
-	fmt.Printf("\n🌐 Frontend available at: http://localhost%s\n", port)
-	log.Fatal(http.ListenAndServe(port, r))
+	fmt.Printf("\n🌐 Frontend available at: http://0.0.0.0%s\n", port)
+	log.Fatal(http.ListenAndServe("0.0.0.0"+port, r))
 }
 
 // corsMiddleware adds CORS headers to all responses

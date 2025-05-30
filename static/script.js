@@ -1,5 +1,5 @@
 // API Configuration
-const API_BASE_URL = 'http://localhost:8082/api/v1';
+const API_BASE_URL = 'http://0.0.0.0:8080/api/v1';
 
 // DOM Elements
 const userForm = document.getElementById('user-form');
