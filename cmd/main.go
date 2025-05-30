@@ -10,7 +10,7 @@ import (
 	"time"
 
 	"github.com/gorilla/mux"
-	// "github.com/joho/godotenv"
+	"github.com/joho/godotenv"
 )
 
 // User represents a simple user structure
@@ -26,11 +26,11 @@ var users []User
 var nextID = 1
 
 func main() {
-	// // Load environment variables from .env file
-	// err := godotenv.Load()
-	// if err != nil {
-	// 	log.Println("Warning: .env file not found, using default values")
-	// }
+	// Load environment variables from .env file
+	err := godotenv.Load()
+	if err != nil {
+		log.Println("Warning: .env file not found, using default values")
+	}
 
 	// Initialize with some sample data
 	users = []User{
