@@ -12,7 +12,7 @@ RUN go build -o main ./
 
 FROM alpine:latest
 
-RUN --no-cache ca-certificates
+RUN --no-cache add ca-certificates
 
 COPY --from=builder /app/main .
 
