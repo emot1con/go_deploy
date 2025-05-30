@@ -22,7 +22,4 @@ WORKDIR /root/
 # Copy the binary from builder stage
 COPY --from=builder /app/authApp .
 
-# Expose port
-EXPOSE 8080
-
 CMD ["./authApp"]

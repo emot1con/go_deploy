@@ -64,8 +64,8 @@ func main() {
 	if portEnv == "" {
 		portEnv = "8080" // Default port if TEST_ENV is not set
 	}
-	port := ":" + portEnv
-	fmt.Printf("🚀 Server starting on port %s\n", port)
+
+	fmt.Printf("🚀 Server starting on port %s\n", portEnv)
 	fmt.Println("Available endpoints:")
 	fmt.Println("  GET    /              - Frontend (User Management)")
 	fmt.Println("  GET    /api/v1/home   - API Home page")
@@ -75,8 +75,8 @@ func main() {
 	fmt.Println("  GET    /api/v1/users/{id} - Get user by ID")
 	fmt.Println("  PUT    /api/v1/users/{id} - Update user by ID")
 	fmt.Println("  DELETE /api/v1/users/{id} - Delete user by ID")
-	fmt.Printf("\n🌐 Frontend available at: http://0.0.0.0%s\n", port)
-	log.Fatal(http.ListenAndServe("0.0.0.0"+port, r))
+	fmt.Printf("\n🌐 Frontend available at: http://0.0.0.0%s\n", portEnv)
+	log.Fatal(http.ListenAndServe("0.0.0.0:"+portEnv, r))
 }
 
 // corsMiddleware adds CORS headers to all responses
