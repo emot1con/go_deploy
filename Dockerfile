@@ -27,9 +27,6 @@ WORKDIR /root/
 # Copy the binary from builder stage
 COPY --from=builder /app/main .
 
-# Copy static files if they exist
-COPY --from=builder /app/static ./static
-
 # Expose port (Railway will set the PORT environment variable)
 EXPOSE 8080
 
